@@ -47,12 +47,16 @@ namespace netcore_google_map.Controllers
             }   
            
             // Get Google map api
-            var googleMapApiUrl = _configuration["GoogleMapApi:Url"];
-            var googleMapApiKey = _configuration["GoogleMapApi:Key"];            
+            var gmapKey = _configuration["GoogleMapsApi:Key"];
+            var gmapUrl = _configuration["GoogleMapsApi:Url"];               
+            var gmapPlaceTextSearch = _configuration["GoogleMapsApi:PlaceTextSearchUrl"];     
 
-            string url = googleMapApiUrl + "/place/textsearch/json?query=restaurants+in+" + keyword + "&key=" + googleMapApiKey;
+            string googleApiUrl = gmapUrl + gmapPlaceTextSearch;     
+            googleApiUrl = googleApiUrl.Replace("{keyword}", keyword); 
+            googleApiUrl = googleApiUrl.Replace("{gmapKey}", gmapKey); 
+
             var client = new HttpClient();
-            var result = await client.GetStringAsync(String.Format(url));        
+            var result = await client.GetStringAsync(String.Format(googleApiUrl));        
 
             var jsonObject = JsonConvert.DeserializeObject<RootResultList>(result);
             place = jsonObject.results;
@@ -85,12 +89,16 @@ namespace netcore_google_map.Controllers
             }   
            
             // Get Google map api
-            var googleMapApiUrl = _configuration["GoogleMapApi:Url"];
-            var googleMapApiKey = _configuration["GoogleMapApi:Key"];            
+            var gmapKey = _configuration["GoogleMapsApi:Key"];
+            var gmapUrl = _configuration["GoogleMapsApi:Url"];               
+            var gmapPlaceDetail = _configuration["GoogleMapsApi:PlaceDetail"];     
 
-            string url = googleMapApiUrl + "/place/details/json?placeid=" + id + "&key=" + googleMapApiKey;
+            string googleApiUrl = gmapUrl + gmapPlaceDetail;     
+            googleApiUrl = googleApiUrl.Replace("{placeId}", id); 
+            googleApiUrl = googleApiUrl.Replace("{gmapKey}", gmapKey); 
+
             var client = new HttpClient();
-            var result = await client.GetStringAsync(String.Format(url));        
+            var result = await client.GetStringAsync(String.Format(googleApiUrl));        
 
             var jsonObject = JsonConvert.DeserializeObject<RootResult>(result);
             place = jsonObject.result;
