@@ -1,13 +1,11 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace netcore_google_map.Models
 {
-    public class Place
+    public class PlaceDetail
     {        
         [JsonProperty("place_id")]
         public string id { get; set; }
-        
         public string name { get; set; }
         public Geometry geometry { get; set; }
 
@@ -15,9 +13,9 @@ namespace netcore_google_map.Models
         public string address { get; set; }
     }
 
-    public class RootPlace  
+    public class RootPlaceDetail  
     {  
-        public List<Place> results { get; set; }  
+        public PlaceDetail result { get; set; }  
         public string status { get; set; }  
     }  
 }
